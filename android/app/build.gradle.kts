@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.robot095.android_multi_tool"
+    namespace = "com.example.android_multi_tool"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

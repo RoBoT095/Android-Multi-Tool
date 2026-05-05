@@ -11,6 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Visuals
+  syncfusion_flutter_gauges: ^33.2.5
+  
   # Sensors
   flutter_compass: ^0.8.1
   sensors_plus: ^7.0.0

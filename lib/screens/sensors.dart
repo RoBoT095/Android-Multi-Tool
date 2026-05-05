@@ -46,7 +46,7 @@ class SensorsScreen extends StatelessWidget {
               },
             ),
             CustomGridTile(
-              title: 'Barometer\n(Pressure)',
+              title: 'Barometer',
               icon: Icons.compress,
               onTap: () {
                 navigatorTo(context, Barometer());

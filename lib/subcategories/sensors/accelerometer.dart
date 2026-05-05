@@ -22,9 +22,9 @@ class _AccelerometerState extends State<Accelerometer> {
   double _x = 0, _y = 0, _z = 0;
 
   static const int _maxPoints = 80;
-  final List<double> _xHist = [];
-  final List<double> _yHist = [];
-  final List<double> _zHist = [];
+  final List<double> _xHistory = [];
+  final List<double> _yHistory = [];
+  final List<double> _zHistory = [];
 
   bool _showX = true, _showY = true, _showZ = true;
 
@@ -39,13 +39,13 @@ class _AccelerometerState extends State<Accelerometer> {
             _x = event.x;
             _y = event.y;
             _z = event.z;
-            _xHist.add(_x);
-            _yHist.add(_y);
-            _zHist.add(_z);
-            if (_xHist.length > _maxPoints) {
-              _xHist.removeAt(0);
-              _yHist.removeAt(0);
-              _zHist.removeAt(0);
+            _xHistory.add(_x);
+            _yHistory.add(_y);
+            _zHistory.add(_z);
+            if (_xHistory.length > _maxPoints) {
+              _xHistory.removeAt(0);
+              _yHistory.removeAt(0);
+              _zHistory.removeAt(0);
             }
           });
         });
@@ -404,9 +404,9 @@ class _AccelerometerState extends State<Accelerometer> {
           Positioned.fill(
             child: CustomPaint(
               painter: _GraphPainter(
-                xData: _showX ? _xHist : [],
-                yData: _showY ? _yHist : [],
-                zData: _showZ ? _zHist : [],
+                xData: _showX ? _xHistory : [],
+                yData: _showY ? _yHistory : [],
+                zData: _showZ ? _zHistory : [],
                 maxPoints: _maxPoints,
               ),
             ),

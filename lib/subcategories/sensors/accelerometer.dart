@@ -155,13 +155,27 @@ class _AccelerometerState extends State<Accelerometer> {
             ),
           ),
           const SizedBox(height: 3),
-          Text(
-            value.toStringAsFixed(3),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w300,
-              fontFeatures: [FontFeature.tabularFigures()],
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: value.toStringAsFixed(3),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w300,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+                TextSpan(
+                  text: ' m/s²',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11, // smaller
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 5),
@@ -211,13 +225,27 @@ class _AccelerometerState extends State<Accelerometer> {
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: Text(
-            value.toStringAsFixed(3),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w300,
-              fontFeatures: [FontFeature.tabularFigures()],
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: value.toStringAsFixed(3),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w300,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+                TextSpan(
+                  text: ' m/s²',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11, // smaller
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

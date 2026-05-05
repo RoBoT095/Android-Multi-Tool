@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:android_multi_tool/components/navigator.dart';
 import 'package:android_multi_tool/components/grid_tile.dart';
 
+import 'package:android_multi_tool/widgets/title_app_bars.dart';
+
 import 'package:android_multi_tool/subcategories/sensors/accelerometer.dart';
 import 'package:android_multi_tool/subcategories/sensors/gyroscope.dart';
 import 'package:android_multi_tool/subcategories/sensors/magnetometer.dart';
@@ -14,7 +16,7 @@ class SensorsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sensors'), centerTitle: true),
+      appBar: titleAppBar(context, title: 'SENSORS'),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: GridView.count(
@@ -44,7 +46,7 @@ class SensorsScreen extends StatelessWidget {
               },
             ),
             CustomGridTile(
-              title: 'Barometer',
+              title: 'Barometer\n(Pressure)',
               icon: Icons.compress,
               onTap: () {
                 navigatorTo(context, Barometer());

@@ -7,7 +7,6 @@ This is a playground project where I try to see what android is capable of and m
 ### Sensors
 
 - Accelerometer (graph + tilt) [sensors_plus](https://pub.dev/packages/sensors_plus)
-  - gravity sensor (bubble level)
 - Gyroscope (rotation cube)
 - Barometer (pressure gauge + altitude)
 - Light sensor (lux meter)

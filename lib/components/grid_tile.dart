@@ -27,7 +27,12 @@ class CustomGridTile extends StatelessWidget {
           children: [
             Icon(icon, size: 40),
             const SizedBox(height: 10),
-            Text(title, style: const TextStyle(fontSize: 16)),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
           ],
         ),
       ),

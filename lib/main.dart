@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:android_multi_tool/components/navigator.dart';
 import 'package:android_multi_tool/components/grid_tile.dart';
 
+import 'package:android_multi_tool/widgets/title_app_bars.dart';
+
 import 'package:android_multi_tool/screens/settings.dart';
 import 'package:android_multi_tool/screens/sensors.dart';
 import 'package:android_multi_tool/screens/device.dart';
@@ -31,9 +33,9 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Android Multi-Tool'),
-        centerTitle: true,
+      appBar: titleAppBar(
+        context,
+        title: 'ANDROID MULTI-TOOL',
         actions: [
           IconButton(
             onPressed: () {

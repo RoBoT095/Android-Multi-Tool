@@ -7,10 +7,10 @@ This is a playground project where I try to see what android is capable of and m
 ### Sensors
 
 - Accelerometer (graph + tilt) [sensors_plus](https://pub.dev/packages/sensors_plus)
-- Gyroscope (rotation cube)
-- Barometer (pressure gauge + altitude)
+- Gyroscope (rotating cube)
+- Barometer (pressure gauge)
 - Light sensor (lux meter)
-- Compass (magnetometer) [flutter_compass](https://pub.dev/packages/flutter_compass)
+- 3D Compass (magnetometer) [flutter_compass](https://pub.dev/packages/flutter_compass)
 - GPS (speedometer + coordinates display) [geolocator](https://pub.dev/packages/geolocator)
 
 ### Device
@@ -31,6 +31,14 @@ This is a playground project where I try to see what android is capable of and m
   - Channel
   - Frequency
 - Mobile Data [system_state](https://pub.dev/packages/system_state)
+  - Provider
+  - RSSI
+  - Band channel
+  - Roaming
+  - SIM state
+  - Service state
+  - Data NW
+  - Voice NW
 
 ## Possible Future Additions
 

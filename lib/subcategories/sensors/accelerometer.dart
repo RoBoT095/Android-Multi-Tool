@@ -320,7 +320,7 @@ class _AccelerometerState extends State<Accelerometer> {
     );
 
     final deco = BoxDecoration(
-      color: Theme.of(context).colorScheme.surfaceContainer,
+      color: Theme.of(context).colorScheme.surfaceBright.withValues(alpha: 0.6),
       borderRadius: BorderRadius.circular(14),
       border: Border.all(color: Theme.of(context).colorScheme.surface),
     );
@@ -393,7 +393,7 @@ class _AccelerometerState extends State<Accelerometer> {
 
   Widget _buildGraph() => Container(
     decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.surfaceContainer,
+      color: Theme.of(context).colorScheme.surfaceBright.withValues(alpha: 0.6),
       borderRadius: BorderRadius.circular(14),
       border: Border.all(color: Theme.of(context).colorScheme.surface),
     ),

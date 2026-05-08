@@ -9,8 +9,8 @@ This is a playground project where I try to see what android is capable of and m
 - Accelerometer (graph + tilt) [sensors_plus](https://pub.dev/packages/sensors_plus)
 - Gyroscope (rotating cube)
 - Barometer (pressure gauge)
-- Light sensor (lux meter)
-- 3D Compass (magnetometer) [flutter_compass](https://pub.dev/packages/flutter_compass)
+- 3D Compass (magnetometer)
+- Light sensor (lux meter) [light](https://pub.dev/packages/light)
 - GPS (speedometer + coordinates display) [geolocator](https://pub.dev/packages/geolocator)
 
 ### Device

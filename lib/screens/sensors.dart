@@ -9,6 +9,8 @@ import 'package:android_multi_tool/subcategories/sensors/accelerometer.dart';
 import 'package:android_multi_tool/subcategories/sensors/gyroscope.dart';
 import 'package:android_multi_tool/subcategories/sensors/magnetometer.dart';
 import 'package:android_multi_tool/subcategories/sensors/barometer.dart';
+import 'package:android_multi_tool/subcategories/sensors/lux_meter.dart';
+import 'package:android_multi_tool/subcategories/sensors/gps.dart';
 
 class SensorsScreen extends StatelessWidget {
   const SensorsScreen({super.key});
@@ -50,6 +52,20 @@ class SensorsScreen extends StatelessWidget {
               icon: Icons.compress,
               onTap: () {
                 navigatorTo(context, Barometer());
+              },
+            ),
+            CustomGridTile(
+              title: 'LUX Meter\n(Light)',
+              icon: Icons.lightbulb,
+              onTap: () {
+                navigatorTo(context, LuxMeter());
+              },
+            ),
+            CustomGridTile(
+              title: 'GPS',
+              icon: Icons.gps_fixed,
+              onTap: () {
+                navigatorTo(context, GPS());
               },
             ),
           ],

@@ -208,13 +208,8 @@ class _BarometerState extends State<Barometer> {
               needleStartWidth: 1,
               needleEndWidth: 4,
               knobStyle: KnobStyle(
-                knobRadius: 0.01,
                 sizeUnit: GaugeSizeUnit.factor,
                 color: Colors.white,
-                borderColor: Theme.of(
-                  context,
-                ).colorScheme.surfaceContainerHighest,
-                borderWidth: 2,
               ),
               tailStyle: const TailStyle(
                 length: 0.12,

@@ -16,8 +16,8 @@ dependencies:
   syncfusion_flutter_gauges: ^33.2.5
   
   # Sensors
-  flutter_compass: ^0.8.1
   sensors_plus: ^7.0.0
+  light: ^5.0.0
 
 dev_dependencies:
   flutter_test:

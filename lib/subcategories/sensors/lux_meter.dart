@@ -6,6 +6,7 @@ import 'package:light/light.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
+import 'package:android_multi_tool/components/info_tile.dart';
 
 const _darkColor = Color(0xFF9C27B0); // < 10 lux
 const _dimColor = Color(0xFF2196F3); // 10–100
@@ -286,13 +287,18 @@ class _LuxMeterState extends State<LuxMeter> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _infoTile(
-          'Peak',
-          '${_peakLux.toStringAsFixed(0)} lux',
-          Icons.arrow_upward,
+        InfoTile(
+          label: 'Peak',
+          value: '${_peakLux.toStringAsFixed(0)} lux',
+          icon: Icons.arrow_upward,
+          endButton: _resetButton(),
         ),
         const SizedBox(width: 16),
-        _infoTile('Exposure (approx)', _evApprox, Icons.camera_outlined),
+        InfoTile(
+          label: 'Exposure (approx)',
+          value: _evApprox,
+          icon: Icons.camera_outlined,
+        ),
       ],
     );
   }
@@ -302,46 +308,6 @@ class _LuxMeterState extends State<LuxMeter> {
     if (_luxValue <= 0) return '— EV';
     final ev = (log(_luxValue / 2.5) / log(2));
     return '${ev.toStringAsFixed(1)} EV';
-  }
-
-  Widget _infoTile(String label, String value, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceBright,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: Theme.of(context).colorScheme.onSurface),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  letterSpacing: 0.8,
-                ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          if (value.contains('lux')) _resetButton(),
-        ],
-      ),
-    );
   }
 
   Widget _resetButton() {

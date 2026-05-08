@@ -17,6 +17,7 @@ dependencies:
   
   # Sensors
   sensors_plus: ^7.0.0
+  geolocator: ^14.0.2
   light: ^5.0.0
 
 dev_dependencies:

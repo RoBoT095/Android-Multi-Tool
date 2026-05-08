@@ -52,3 +52,9 @@ This is a playground project where I try to see what android is capable of and m
 
 - Units Converter (like fossify calculator but better) [units_converter](https://pub.dev/packages/units_converter)
 - Flashlight (with different modes) [torch_light](https://pub.dev/packages/torch_light)
+
+## ToDo List
+
+- Add parameters to sensor screens
+- Add settings to remember changes like using defaulting to km/h instead of mph
+- Add global setting to keep screen alive all the time

@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
+import 'package:android_multi_tool/components/info_tile.dart';
 
 const _veryLowPresColor = Color(0xFFF44336);
 const _lowPresColor = Color(0xFFFF9800);
@@ -286,53 +287,14 @@ class _BarometerState extends State<Barometer> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _infoTile('Sea Level', '1013.25 hPa', Icons.water),
+        InfoTile(label: 'Sea Level', value: '1013.25 hPa', icon: Icons.water),
         const SizedBox(width: 16),
-        _infoTile(
-          'Delta',
-          '${(_pressure - 1013.25).toStringAsFixed(1)} hPa',
-          Icons.swap_vert,
+        InfoTile(
+          label: 'Delta',
+          value: '${(_pressure - 1013.25).toStringAsFixed(1)} hPa',
+          icon: Icons.swap_vert,
         ),
       ],
-    );
-  }
-
-  Widget _infoTile(String label, String value, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceBright,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: Theme.of(context).colorScheme.onSurface),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  letterSpacing: 0.8,
-                ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

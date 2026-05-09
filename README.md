@@ -2,6 +2,16 @@
 
 This is a playground project where I try to see what android is capable of and maybe use it to understand things better for the future like how does android read bluetooth signals and what different sensors on the device see
 
+# Permission Usage
+
+## Internet
+
+Internet is currently only used in attempt to pull an image of your device when accessing the hardware info screen. This app does not collect, store, or use any data the app has access too.
+
+## Location
+
+Location data is only requested on GPS screen to show you data like latitude, longitude, traveling speed, etc. None of this data is stored or collected by app/provider
+
 ## Brainstorming
 
 ### Sensors

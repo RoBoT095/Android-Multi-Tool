@@ -14,11 +14,19 @@ dependencies:
 
   # Visuals
   syncfusion_flutter_gauges: ^33.2.5
+
+  # Util helpers
+  http: ^1.6.0
+  html: ^0.15.6
   
   # Sensors
   sensors_plus: ^7.0.0
   geolocator: ^14.0.2
   light: ^5.0.0
+
+  # Hardware Info
+  device_info_plus: ^12.4.0
+
 
 dev_dependencies:
   flutter_test:

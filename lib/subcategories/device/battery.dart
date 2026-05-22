@@ -32,6 +32,7 @@ class BatteryInfo extends StatefulWidget {
 class _BatteryInfoState extends State<BatteryInfo> {
   StreamSubscription<AndroidBatteryInfo?>? _subscription;
   AndroidBatteryInfo? _info;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -39,11 +40,17 @@ class _BatteryInfoState extends State<BatteryInfo> {
     _subscription = BatteryInfoPlugin().androidBatteryInfoStream.listen((info) {
       setState(() => _info = info);
     });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) async {
+      final info = await BatteryInfoPlugin().androidBatteryInfo;
+      if (mounted) setState(() => _info = info);
+    });
   }
 
   @override
   void dispose() {
     _subscription?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -66,7 +73,6 @@ class _BatteryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
     final level = info.batteryLevel;
     final gaugeColor = _batteryColor(level);
     final isCharging = info.chargingStatus == ChargingStatus.Charging;
@@ -82,7 +88,7 @@ class _BatteryBody extends StatelessWidget {
           ),
 
           const SizedBox(height: 28),
-          _InfoGrid(info: info, cs: cs),
+          _InfoGrid(info: info, isCharging: isCharging),
         ],
       ),
     );
@@ -149,9 +155,9 @@ class _BatteryGauge extends StatelessWidget {
 
 class _InfoGrid extends StatelessWidget {
   final AndroidBatteryInfo info;
-  final ColorScheme cs;
+  final bool isCharging;
 
-  const _InfoGrid({required this.info, required this.cs});
+  const _InfoGrid({required this.info, required this.isCharging});
 
   String _formatChargeTime(int? milliseconds) {
     if (milliseconds == null || milliseconds < 0) return 'N/A';
@@ -162,15 +168,41 @@ class _InfoGrid extends StatelessWidget {
     return '${h}h ${m}m';
   }
 
-  String _formatCurrent(int? microAmp) {
-    if (microAmp == null) return 'N/A';
-    final mA = microAmp / 1000;
-    return '${mA.toStringAsFixed(1)} mA';
+  String _formatTemperature(int? temp) {
+    if (temp == null) return 'N/A';
+    return '${(temp).toStringAsFixed(1)} °C';
   }
 
-  String _formatTemperature(int? tenths) {
-    if (tenths == null) return 'N/A';
-    return '${(tenths / 10).toStringAsFixed(1)} °C';
+  String _formatCurrent(int? value, bool isCharging) {
+    if (value == null) return 'N/A';
+    if (value == -2147483648) return 'N/A';
+
+    double milliAmps = value.abs() > 30000 ? value / 1000.0 : value.toDouble();
+
+    // positive = charging, negative = discharging
+    final normalized = isCharging ? milliAmps.abs() : -milliAmps.abs();
+    final amps = normalized / 1000.0;
+
+    return '${amps.toStringAsFixed(3)} A';
+  }
+
+  String _formatPower(int? milliVolts, int? currentValue) {
+    if (milliVolts == null ||
+        currentValue == null ||
+        currentValue == -2147483648) {
+      return 'N/A';
+    }
+
+    double milliAmps;
+    if (currentValue.abs() > 30000) {
+      milliAmps = currentValue / 1000.0; // convert microAmp to milliAmp
+    } else {
+      milliAmps = currentValue.toDouble();
+    }
+
+    final volts = milliVolts / 1000.0;
+    final watts = (volts * milliAmps) / 1000.0; // milliWatts to Watts
+    return '${watts.toStringAsFixed(2)} W';
   }
 
   String _formatVoltage(int? milliVolts) {
@@ -179,22 +211,56 @@ class _InfoGrid extends StatelessWidget {
   }
 
   String _formatEnergy(int? nanoWattHours) {
-    if (nanoWattHours == null) return 'N/A';
+    if (nanoWattHours == null || nanoWattHours == -2147483648) return 'N/A';
     final milliWattHours = nanoWattHours / 1e6;
     return '${milliWattHours.toStringAsFixed(1)} mWh';
   }
 
-  String _formatCapacity(int? milliAmpHours) {
-    if (milliAmpHours == null) return 'N/A';
-    return '$milliAmpHours mAh';
+  String _formatCapacity(int? microAmpHours) {
+    if (microAmpHours == null || microAmpHours == -2147483648) return 'N/A';
+    final mAh = microAmpHours / 1000;
+    return '${mAh.toStringAsFixed(0)} mAh';
+  }
+
+  String _getHealthString(String? health) {
+    if (health == null) {
+      return 'N/A';
+    }
+    if (health.toLowerCase().contains('fail')) {
+      return 'Battery Failure';
+    }
+    switch (health.toLowerCase()) {
+      case 'health_good':
+        return 'Good';
+      case 'over_heat':
+        return 'Overheating';
+      case 'over_voltage':
+        return 'Over voltage';
+      case 'dead':
+        return 'Dead';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  Color _healthColor(String? health) {
+    switch (health?.toLowerCase()) {
+      case 'health_good':
+        return _chargedBatColor;
+      case 'over_heat' || 'dead' || 'over_voltage':
+        return _veryLowBatColor;
+      default:
+        return _defaultColor;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final tiles = [
       DataGridTile(
         icon: Icons.storage,
-        label: 'Capacity',
+        label: 'Current Capacity',
         value: _formatCapacity(info.batteryCapacity),
         iconColor: cs.primary,
       ),
@@ -219,20 +285,20 @@ class _InfoGrid extends StatelessWidget {
       ),
       DataGridTile(
         icon: Icons.bolt,
-        label: 'Current Now',
-        value: _formatCurrent(info.currentNow),
+        label: 'Current',
+        value: _formatCurrent(info.currentNow, isCharging),
         iconColor: cs.tertiary,
       ),
       DataGridTile(
-        icon: Icons.show_chart,
-        label: 'Current Avg',
-        value: _formatCurrent(info.currentAverage),
-        iconColor: cs.secondary,
+        icon: Icons.power,
+        label: 'Power',
+        value: _formatPower(info.voltage, info.currentNow),
+        iconColor: cs.tertiary,
       ),
       DataGridTile(
         icon: Icons.favorite,
         label: 'Health',
-        value: info.health ?? 'N/A',
+        value: _getHealthString(info.health),
         iconColor: _healthColor(info.health),
       ),
       DataGridTile(
@@ -267,16 +333,5 @@ class _InfoGrid extends StatelessWidget {
       itemCount: tiles.length,
       itemBuilder: (context, i) => tiles[i],
     );
-  }
-
-  Color _healthColor(String? health) {
-    switch (health?.toLowerCase()) {
-      case 'health_good':
-        return _chargedBatColor;
-      case 'over_heat' || 'dead' || 'over_voltage' || 'failure':
-        return _veryLowBatColor;
-      default:
-        return _defaultColor;
-    }
   }
 }

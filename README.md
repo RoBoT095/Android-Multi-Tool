@@ -25,7 +25,7 @@ Location data is only requested on GPS screen to show you data like latitude, lo
 
 ### Device
 
-- Battery (percent + temperature + voltage + capacity) [system_state](https://pub.dev/packages/system_state)
+- Battery (percent + temperature + voltage + capacity) [battery_info fork](https://github.com/EttoreCaputo/flutter_battery_info)
 - CPU and RAM usage [system_info2](https://pub.dev/packages/system_info2)
 - Storage breakdown (total + used + free) [storage_space](https://pub.dev/packages/storage_space)
 - Device model + Android version [device_info_plus](https://pub.dev/packages/device_info_plus)

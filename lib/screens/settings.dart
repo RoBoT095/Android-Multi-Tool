@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: titleAppBar(context, title: 'SETTINGS'),
-      body: Container(),
+      body: SafeArea(child: Center(child: Text('Nothing here yet!'))),
     );
   }
 }

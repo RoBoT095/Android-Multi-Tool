@@ -2,7 +2,7 @@ name: android_multi_tool
 description: "A collection of tools and sensor data of your device to see what it is capable of"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: ^3.11.5

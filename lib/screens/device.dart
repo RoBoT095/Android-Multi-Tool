@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:android_multi_tool/components/navigator.dart';
 import 'package:android_multi_tool/components/grid_tile.dart';
+import 'package:android_multi_tool/components/under_construction_tape.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
 
@@ -24,12 +25,14 @@ class DeviceScreen extends StatelessWidget {
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
           children: [
-            CustomGridTile(
-              title: 'Battery',
-              icon: Icons.battery_4_bar,
-              onTap: () {
-                navigatorTo(context, BatteryInfo());
-              },
+            UnderConstructionTape(
+              child: CustomGridTile(
+                title: 'Battery',
+                icon: Icons.battery_4_bar,
+                onTap: () {
+                  navigatorTo(context, BatteryInfo());
+                },
+              ),
             ),
             CustomGridTile(
               title: 'Hardware Info',
@@ -38,19 +41,23 @@ class DeviceScreen extends StatelessWidget {
                 navigatorTo(context, HardwareInfo());
               },
             ),
-            CustomGridTile(
-              title: 'Storage',
-              icon: Icons.sd_storage,
-              onTap: () {
-                navigatorTo(context, DeviceStorage());
-              },
+            UnderConstructionTape(
+              child: CustomGridTile(
+                title: 'Storage',
+                icon: Icons.sd_storage,
+                onTap: () {
+                  navigatorTo(context, DeviceStorage());
+                },
+              ),
             ),
-            CustomGridTile(
-              title: 'CPU & RAM',
-              icon: Icons.speed,
-              onTap: () {
-                navigatorTo(context, SystemUsage());
-              },
+            UnderConstructionTape(
+              child: CustomGridTile(
+                title: 'CPU & RAM',
+                icon: Icons.speed,
+                onTap: () {
+                  navigatorTo(context, SystemUsage());
+                },
+              ),
             ),
           ],
         ),

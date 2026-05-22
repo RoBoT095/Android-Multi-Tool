@@ -25,14 +25,12 @@ class DeviceScreen extends StatelessWidget {
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
           children: [
-            UnderConstructionTape(
-              child: CustomGridTile(
-                title: 'Battery',
-                icon: Icons.battery_4_bar,
-                onTap: () {
-                  navigatorTo(context, BatteryInfo());
-                },
-              ),
+            CustomGridTile(
+              title: 'Battery',
+              icon: Icons.battery_4_bar,
+              onTap: () {
+                navigatorTo(context, BatteryInfo());
+              },
             ),
             CustomGridTile(
               title: 'Hardware Info',

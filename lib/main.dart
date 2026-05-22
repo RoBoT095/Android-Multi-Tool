@@ -4,6 +4,7 @@ import 'package:android_multi_tool/components/navigator.dart';
 import 'package:android_multi_tool/components/grid_tile.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
+import 'package:android_multi_tool/components/under_construction_tape.dart';
 
 import 'package:android_multi_tool/screens/settings.dart';
 import 'package:android_multi_tool/screens/sensors.dart';
@@ -66,12 +67,14 @@ class StartPage extends StatelessWidget {
                 navigatorTo(context, DeviceScreen());
               },
             ),
-            CustomGridTile(
-              title: 'Wireless',
-              icon: Icons.wifi,
-              onTap: () {
-                navigatorTo(context, WirelessScreen());
-              },
+            UnderConstructionTape(
+              child: CustomGridTile(
+                title: 'Wireless',
+                icon: Icons.wifi,
+                onTap: () {
+                  navigatorTo(context, WirelessScreen());
+                },
+              ),
             ),
             // CustomGridTile(
             //   title: 'Audio',

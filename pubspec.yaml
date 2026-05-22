@@ -26,6 +26,11 @@ dependencies:
 
   # Hardware Info
   device_info_plus: ^12.4.0
+  battery_info:
+    git:
+      url: https://github.com/EttoreCaputo/flutter_battery_info
+      ref: "50147e5"
+  system_state: ^1.4.1
 
 
 dev_dependencies:

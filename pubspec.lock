@@ -17,6 +17,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.1"
+  battery_info:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "50147e5"
+      resolved-ref: "50147e5cdc7fc98fd5cbacb58765de3e8ae088ee"
+      url: "https://github.com/EttoreCaputo/flutter_battery_info"
+    source: git
+    version: "1.1.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -429,6 +438,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "33.2.5"
+  system_state:
+    dependency: "direct main"
+    description:
+      name: system_state
+      sha256: a2a95561f0db65c68676224695f65c39f4611fb00e5ce4bc47e11b4db5f3e4b0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   term_glyph:
     dependency: transitive
     description:
@@ -518,5 +535,5 @@ packages:
     source: hosted
     version: "6.6.1"
 sdks:
-  dart: ">=3.11.5 <4.0.0"
+  dart: ">=3.11.5 <=3.32.8"
   flutter: ">=3.38.5 <3.44.0"

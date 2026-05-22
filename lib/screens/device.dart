@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:android_multi_tool/components/navigator.dart';
+import 'package:android_multi_tool/utils/navigator.dart';
 import 'package:android_multi_tool/components/grid_tile.dart';
 import 'package:android_multi_tool/components/under_construction_tape.dart';
 

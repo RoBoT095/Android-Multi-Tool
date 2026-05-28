@@ -89,6 +89,12 @@ class _MagnetometerState extends State<Magnetometer>
                 ),
               ),
             ),
+            // Info Text
+            Text(
+              'Try putting a magnet near your device',
+              style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
 
             // Data readout panel
             Container(
@@ -209,7 +215,7 @@ class _CompassStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Heading: angle of XY projection from magnetic north
-    double heading = math.atan2(x, y) * 180 / math.pi;
+    double heading = math.atan2(-x, y) * 180 / math.pi;
     if (heading < 0) heading += 360;
     final label = _headingLabel(heading);
 

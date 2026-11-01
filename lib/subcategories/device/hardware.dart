@@ -1,7 +1,6 @@
-import 'package:android_multi_tool/utils/gsmarnena_fetcher.dart';
 import 'package:flutter/material.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
 
@@ -25,7 +24,7 @@ class _HardwareInfoState extends State<HardwareInfo> {
   @override
   void initState() {
     super.initState();
-    loadDeviceInfo().then((_) => loadDeviceImage(deviceInfo!));
+    loadDeviceInfo();
   }
 
   Future<void> loadDeviceInfo() async {
@@ -45,33 +44,6 @@ class _HardwareInfoState extends State<HardwareInfo> {
       setState(() {
         loading = false;
       });
-    }
-  }
-
-  Future<void> loadDeviceImage(AndroidDeviceInfo info) async {
-    try {
-      setState(() {
-        imageLoading = true;
-      });
-
-      final model = normalizeModel('${info.brand} ${info.model}');
-
-      final image = await GSMArenaImageFetcher.fetchImage(model);
-
-      if (mounted) {
-        setState(() {
-          imageUrl = image ?? '';
-          imageLoading = false;
-        });
-      }
-    } catch (e) {
-      debugPrint('Image fetch error: $e');
-
-      if (mounted) {
-        setState(() {
-          imageLoading = false;
-        });
-      }
     }
   }
 
@@ -152,40 +124,6 @@ class _HardwareInfoState extends State<HardwareInfo> {
               child: ListView(
                 padding: const EdgeInsets.all(12),
                 children: [
-                  if (imageLoading)
-                    const SizedBox(
-                      height: 220,
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-
-                  if (!imageLoading && imageUrl.isNotEmpty)
-                    Container(
-                      height: 220,
-                      margin: const EdgeInsets.only(bottom: 16),
-                      child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            imageUrl,
-                            fit: BoxFit.contain,
-                            height: 212,
-                            width: 160,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-
                   ...buildHardwareData(deviceInfo!).map((item) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'package:android_multi_tool/widgets/title_app_bars.dart';
+import 'package:android_multi_tool/widgets/permission_denied.dart';
 import 'package:android_multi_tool/components/info_tile.dart';
 
 const _lowSpeedColor = Color(0xFF4CAF50);
@@ -21,6 +22,9 @@ class GPS extends StatefulWidget {
 class _GPSState extends State<GPS> {
   StreamSubscription<Position>? _subscription;
 
+  bool _permissionDenied = false;
+  bool _permanentlyDenied = false;
+
   double _speedKmh = 0.0;
   double _latitude = 0.0;
   double _longitude = 0.0;
@@ -28,7 +32,6 @@ class _GPSState extends State<GPS> {
   double _accuracy = 0.0;
   double _heading = 0.0;
   bool _isLoading = true;
-  String? _errorMessage;
   bool _useMph = true;
 
   static const double _maxSpeedKmh = 180.0;
@@ -51,30 +54,31 @@ class _GPSState extends State<GPS> {
   }
 
   Future<void> _initLocation() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
+    setState(() {
+      _isLoading = true;
+      _permissionDenied = false;
+    });
+
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      if (!mounted) return;
       setState(() {
-        _errorMessage = 'Location services are disabled.';
+        _permissionDenied = true;
         _isLoading = false;
       });
       return;
     }
 
-    LocationPermission permission = await Geolocator.checkPermission();
+    var permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        setState(() {
-          _errorMessage = 'Location permission denied.';
-          _isLoading = false;
-        });
-        return;
-      }
     }
 
-    if (permission == LocationPermission.deniedForever) {
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      if (!mounted) return;
       setState(() {
-        _errorMessage = 'Location permission permanently denied.';
+        _permanentlyDenied = permission == LocationPermission.deniedForever;
+        _permissionDenied = true;
         _isLoading = false;
       });
       return;
@@ -84,9 +88,11 @@ class _GPSState extends State<GPS> {
       _isLoading = false;
     });
 
-    const settings = LocationSettings(
+    LocationSettings settings = AndroidSettings(
       accuracy: LocationAccuracy.bestForNavigation,
       distanceFilter: 0,
+      intervalDuration: const Duration(milliseconds: 500),
+      forceLocationManager: true,
     );
 
     _subscription = Geolocator.getPositionStream(locationSettings: settings)
@@ -118,91 +124,69 @@ class _GPSState extends State<GPS> {
       appBar: titleAppBar(
         context,
         title: 'GPS',
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: GestureDetector(
-              onTap: () => setState(() => _useMph = !_useMph),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceBright,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey[700]!, width: 1),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'mph',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: _useMph ? Colors.white : Colors.grey,
+        actions: _permissionDenied
+            ? []
+            : [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: GestureDetector(
+                    onTap: () => setState(() => _useMph = !_useMph),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceBright,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.grey[700]!, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'mph',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: _useMph ? Colors.white : Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text('|', style: TextStyle(color: Colors.grey[600])),
+                          const SizedBox(width: 6),
+                          Text(
+                            'km/h',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: !_useMph ? Colors.white : Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 6),
-                    Text('|', style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(width: 6),
-                    Text(
-                      'km/h',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: !_useMph ? Colors.white : Colors.grey,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ],
+              ],
       ),
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : _errorMessage != null
-            ? _buildError()
+            : _permissionDenied
+            ? permissionDenied(
+                icon: Icons.location_off,
+                message: _permanentlyDenied
+                    ? 'Location permission was permanently denied. Enable it in app settings.'
+                    : 'Location permission denied.',
+                onPressed: () {
+                  _initLocation();
+                },
+              )
             : isLandscape
             ? _buildLandscape()
             : _buildPortrait(),
-      ),
-    );
-  }
-
-  Widget _buildError() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.location_off, size: 48, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(
-              _errorMessage!,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey, fontSize: 15),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  _isLoading = true;
-                  _errorMessage = null;
-                });
-                _initLocation();
-              },
-              icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
-            ),
-          ],
-        ),
       ),
     );
   }

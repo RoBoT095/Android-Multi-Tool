@@ -10,6 +10,8 @@ import 'package:android_multi_tool/screens/settings.dart';
 import 'package:android_multi_tool/screens/sensors.dart';
 import 'package:android_multi_tool/screens/device.dart';
 import 'package:android_multi_tool/screens/wireless.dart';
+import 'package:android_multi_tool/screens/audio.dart';
+import 'package:android_multi_tool/screens/utility_tools.dart';
 
 void main() {
   runApp(const App());
@@ -76,17 +78,23 @@ class StartPage extends StatelessWidget {
                 },
               ),
             ),
-            // CustomGridTile(
-            //   title: 'Audio',
-            //   icon: Icons.music_note,
-            //   onTap: () {},
-            // ),
+            CustomGridTile(
+              title: 'Audio',
+              icon: Icons.music_note,
+              onTap: () {
+                navigatorTo(context, AudioScreen());
+              },
+            ),
 
-            // CustomGridTile(
-            //   title: 'Utility Tools',
-            //   icon: Icons.construction,
-            //   onTap: () {},
-            // ),
+            UnderConstructionTape(
+              child: CustomGridTile(
+                title: 'Utility Tools',
+                icon: Icons.construction,
+                onTap: () {
+                  navigatorTo(context, UtilityToolsScreen());
+                },
+              ),
+            ),
           ],
         ),
       ),

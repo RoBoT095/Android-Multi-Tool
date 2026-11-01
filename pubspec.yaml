@@ -2,18 +2,20 @@ name: android_multi_tool
 description: "A collection of tools and sensor data of your device to see what it is capable of"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.1.1+2
+version: 0.2.0+2
 
 environment:
   sdk: ^3.11.5
-  flutter: '>=3.38.5 <3.44.0'
+  flutter: '>=3.38.5 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
+  permission_handler: ^12.0.3
+
   # Visuals
-  syncfusion_flutter_gauges: ^33.2.5
+  syncfusion_flutter_gauges: ^35.1.42
 
   # Util helpers
   http: ^1.6.0
@@ -22,15 +24,19 @@ dependencies:
   # Sensors
   sensors_plus: ^7.0.0
   geolocator: ^14.0.2
-  light: ^5.0.0
+  # light: ^5.0.0
+  noise_meter: ^6.0.0
 
   # Hardware Info
-  device_info_plus: ^12.4.0
+  device_info_plus: ^13.3.0
   battery_info:
     git:
-      url: https://github.com/EttoreCaputo/flutter_battery_info
-      ref: "50147e5"
-  system_state: ^1.4.1
+      url: https://github.com/RoBoT095/flutter_battery_info
+      ref: "89d2b26"
+  system_state:
+      git:
+        url: https://github.com/ShamilPP/system_state
+        ref: "7a1318f"
 
 
 dev_dependencies:
